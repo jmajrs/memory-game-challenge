@@ -1,17 +1,44 @@
-function App() {
-  return (
-    <main className="min-h-screen bg-slate-950 flex items-center justify-center">
-      <section className="text-center">
-        <h1 className="text-5xl font-bold text-white mb-6">
-          Memory Game Challenge
-        </h1>
+import { useState } from "react"
+import Game from './pages/Game/Game'
+import Home from './pages/Home/Home'
+import Result from './pages/Result/Result'
+import { GAME_SCREENS } from './constants/game'
 
-        <button className="rounded-xl bg-yellow-400 px-6 py-3 font-bold text-slate-950 transition-transform duration-300 hover:scale-110">
-          Tailwind Works
-        </button>
-      </section>
-    </main>
-  )
+function App() {
+  const [currentScreen, setCurrentScreen] = useState(GAME_SCREENS.home),
+    [hasWon, setHasWon] = useState(false);
+
+  function handleStartGame() {
+    setCurrentScreen(GAME_SCREENS.game)
+  }
+
+  function handleFinishGame(gameWasWon) {
+    setHasWon(gameWasWon)
+    setCurrentScreen(GAME_SCREENS.result)
+  }
+
+  function handlePlayAgain() {
+    setHasWon(false)
+    setCurrentScreen(GAME_SCREENS.game)
+  }
+
+  switch (currentScreen) {
+    case GAME_SCREENS.game:
+      return (
+        <Game onFinishGame={handleFinishGame} />
+      )
+
+    case GAME_SCREENS.result:
+      return (
+        <Result hasWon={hasWon} onPlayAgain={handlePlayAgain} />
+      )
+
+    case GAME_SCREENS.home:
+    default:
+      return (
+        <Home onStartGame={handleStartGame} />
+      )
+  }
 }
 
 export default App
