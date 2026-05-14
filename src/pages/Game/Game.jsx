@@ -3,11 +3,14 @@ import {
     BASE_CARDS,
     CARD_FLIP_BACK_DELAY,
     MATCH_MODAL_DURATION,
-    MATCH_MODAL_MESSAGES
+    MATCH_MODAL_MESSAGES,
+    INITIAL_GAME_TIMER_SECONDS,
+    TOTAL_MATCHES
 } from '../../constants/game'
 import { createGameCards } from '../../utils/cards'
 import MemoryCard from '../../components/MemoryCard/MemoryCard'
 import FeedbackModal from '../../components/FeedbackModal/FeedbackModal'
+import GameTimer from '../../components/GameTimer/GameTimer'
 
 /**
  * Game component
@@ -18,7 +21,9 @@ function Game({ onFinishGame }) {
     const [cards, setCards] = useState(() => createGameCards(BASE_CARDS)),
         [selectedCards, setSelectedCards] = useState([]),
         [isBoardLocked, setIsBoardLocked] = useState(false),
-        [modalMessage, setModalMessage] = useState('');
+        [modalMessage, setModalMessage] = useState(''),
+        [timeLeft, setTimeLeft] = useState(INITIAL_GAME_TIMER_SECONDS),
+        [matchesFound, setMatchesFound] = useState(0);
 
     function showFeedbackModal(message) {
         setModalMessage(message)
@@ -29,7 +34,7 @@ function Game({ onFinishGame }) {
     }
 
     function handleSelectedCard(selectedCard) {
-        if (isBoardLocked || selectedCards.length === 2) return
+        if (isBoardLocked || selectedCards.length === 2 || timeLeft === 0) return
 
         const UPDATED_CARDS = cards.map((card) => {
             if (card.id !== selectedCard.id) return card
@@ -46,6 +51,23 @@ function Game({ onFinishGame }) {
             selectedCard
         ])
     }
+
+    useEffect(() => {
+        if (timeLeft === 0) {
+            onFinishGame(false)
+            return
+        }
+
+        const TIMER_INTERVAL = setInterval(() => {
+            setTimeLeft((currentTimeLeft) => currentTimeLeft - 1)
+        }, 1000)
+
+        return () => clearInterval(TIMER_INTERVAL)
+    }, [timeLeft, onFinishGame])
+
+    useEffect(() => {
+        if (matchesFound === TOTAL_MATCHES) onFinishGame(true)
+    }, [matchesFound, onFinishGame])
 
     useEffect(() => {
         if (selectedCards.length !== 2) return
@@ -70,6 +92,7 @@ function Game({ onFinishGame }) {
                     })
                 )
 
+                setMatchesFound((currentMatchesFound) => currentMatchesFound + 1)
                 setSelectedCards([])
                 setIsBoardLocked(false)
                 hideFeedbackModal()
@@ -107,13 +130,9 @@ function Game({ onFinishGame }) {
         <main className='min-h-screen bg-slate-950 px-4 py-8'>
             <FeedbackModal message={modalMessage} isVisible={Boolean(modalMessage)} />
             <section className='mx-auto max-w-4xl'>
-                <div className='mb-8 flex flex-col items-center'>
-                    <h1 className='text-4xl font-bold text-white mb-6'>Memory Game</h1>
-                    <button
-                        type='button'
-                        onClick={() => onFinishGame(false)}
-                        className='rounded-full bg-red-400 px-5 py-2 font-bold text-slate-950 transition-transform duration-300 hover:scale-105'
-                    >Exit Test</button>
+                <div className='mb-8 flex justify-between items-center '>
+                    <h1 className='text-4xl font-bold text-white m-0'>Memory Game</h1>
+                    <GameTimer timeLeft={timeLeft} />
                 </div>
                 <div className='grid grid-cols-2 gap-4 sm:grid-cols-4'>
                     {cards.map((card) => (

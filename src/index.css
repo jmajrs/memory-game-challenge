@@ -6,7 +6,7 @@
 
 .animate-modal-pop {
     animation: modal-pop 0.25s ease-out;
-    margin-top: 32px;
+    margin-top: 16px;
 }
 
 /* @Keyframes */
