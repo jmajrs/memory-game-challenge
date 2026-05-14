@@ -1,6 +1,7 @@
 export const INITIAL_GAME_TIMER_SECONDS = 30
 export const CARD_FLIP_BACK_DELAY = 900
 export const MATCH_MODAL_DURATION = 1000
+export const TICKING_SOUND_START_TIME = 10
 
 export const GAME_SCREENS = {
     home: 'HOME',
@@ -51,4 +52,11 @@ export const TOTAL_MATCHES = BASE_CARDS.length
 export const MATCH_MODAL_MESSAGES = {
     success: "nice! it's a match",
     fail: 'sorry, but this is not a match'
+}
+
+export const AUDIO_TYPES = {
+    background: 'BACKGROUND',
+    correct: 'CORRECT',
+    incorrect: 'INCORRECT',
+    ticking: 'TICKING'
 }
