@@ -9,6 +9,18 @@
     margin-top: 16px;
 }
 
+.animate-slide-in-from-top {
+    animation: slide-in-from-top 0.8s ease-out;
+}
+
+.animate-slide-in-from-bottom {
+    animation: slide-in-from-bottom 0.8s ease-out;
+}
+
+.hover-bounce {
+    animation: button-bounce 0.45s ease-in-out;
+}
+
 /* @Keyframes */
 
 @keyframes modal-pop {
@@ -20,5 +32,41 @@
     100% {
         opacity: 1;
         transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes slide-in-from-top {
+    0% {
+        opacity: 0;
+        transform: translateY(-120px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-in-from-bottom {
+    0% {
+        opacity: 0;
+        transform: translateY(120px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes button-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-8px) scale(1.05);
     }
 }
