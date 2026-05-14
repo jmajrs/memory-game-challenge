@@ -1,3 +1,17 @@
+/**
+ * MemoryCard component
+ * Renders an individual card for the memory game.
+ *
+ * This component controls the visual state of a single card. The card
+ * is shown as visible when it is flipped or already matched. When the
+ * card is hidden, the user can select it by clicking the button, which
+ * sends the full card data to the onSelectCard callback.
+ *
+ * @param <Object> card Card data used to render and control the card state
+ * @param <Function> onSelectCard Callback function executed when the card is selected
+ * @param <Boolean> isDisabled Indicates whether the card selection should be blocked
+ * @return <JSX.Element> Memory card UI
+ */
 function MemoryCard({ card, onSelectCard, isDisabled }) {
     const CARD_IS_VISIBLE = card.isFlipped || card.isMatched
 

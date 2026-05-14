@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react'
-import { BASE_CARDS, CARD_FLIP_BACK_DELAY } from '../../constants/game'
+import {
+    BASE_CARDS,
+    CARD_FLIP_BACK_DELAY,
+    MATCH_MODAL_DURATION,
+    MATCH_MODAL_MESSAGES
+} from '../../constants/game'
 import { createGameCards } from '../../utils/cards'
 import MemoryCard from '../../components/MemoryCard/MemoryCard'
+import FeedbackModal from '../../components/FeedbackModal/FeedbackModal'
 
 /**
  * Game component
@@ -11,7 +17,16 @@ import MemoryCard from '../../components/MemoryCard/MemoryCard'
 function Game({ onFinishGame }) {
     const [cards, setCards] = useState(() => createGameCards(BASE_CARDS)),
         [selectedCards, setSelectedCards] = useState([]),
-        [isBoardLocked, setIsBoardLocked] = useState(false);
+        [isBoardLocked, setIsBoardLocked] = useState(false),
+        [modalMessage, setModalMessage] = useState('');
+
+    function showFeedbackModal(message) {
+        setModalMessage(message)
+    }
+
+    function hideFeedbackModal() {
+        setModalMessage('')
+    }
 
     function handleSelectedCard(selectedCard) {
         if (isBoardLocked || selectedCards.length === 2) return
@@ -41,22 +56,29 @@ function Game({ onFinishGame }) {
         setIsBoardLocked(true)
 
         if (CARDS_MATCH) {
-            setCards((currentCards) =>
-                currentCards.map((card) => {
-                    if (card.type !== firstCard.type) return card
+            showFeedbackModal(MATCH_MODAL_MESSAGES.success)
 
-                    return {
-                        ...card,
-                        isMatched: true
-                    }
-                })
-            )
+            const MATCH_TIMEOUT = setTimeout(() => {
+                setCards((currentCards) =>
+                    currentCards.map((card) => {
+                        if (card.type !== firstCard.type) return card
 
-            setSelectedCards([])
-            setIsBoardLocked(false)
+                        return {
+                            ...card,
+                            isMatched: true
+                        }
+                    })
+                )
 
-            return
+                setSelectedCards([])
+                setIsBoardLocked(false)
+                hideFeedbackModal()
+            }, MATCH_MODAL_DURATION)
+
+            return () => clearTimeout(MATCH_TIMEOUT)
         }
+
+        showFeedbackModal(MATCH_MODAL_MESSAGES.fail)
 
         const FLIP_BACK_TIMEOUT = setTimeout(() => {
             setCards((currentCards) =>
@@ -75,13 +97,15 @@ function Game({ onFinishGame }) {
 
             setSelectedCards([])
             setIsBoardLocked(false)
-        }, CARD_FLIP_BACK_DELAY)
+            hideFeedbackModal()
+        }, CARD_FLIP_BACK_DELAY + MATCH_MODAL_DURATION)
 
         return () => clearTimeout(FLIP_BACK_TIMEOUT)
     }, [selectedCards])
 
     return (
         <main className='min-h-screen bg-slate-950 px-4 py-8'>
+            <FeedbackModal message={modalMessage} isVisible={Boolean(modalMessage)} />
             <section className='mx-auto max-w-4xl'>
                 <div className='mb-8 flex flex-col items-center'>
                     <h1 className='text-4xl font-bold text-white mb-6'>Memory Game</h1>

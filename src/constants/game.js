@@ -1,5 +1,6 @@
 export const INITIAL_GAME_TIMER_SECONDS = 30
 export const CARD_FLIP_BACK_DELAY = 900
+export const MATCH_MODAL_DURATION = 1500
 
 export const GAME_SCREENS = {
     home: 'HOME',
@@ -44,3 +45,8 @@ export const BASE_CARDS = [
         symbol: CARD_SYMBOLS[CARD_TYPES.comet]
     }
 ]
+
+export const MATCH_MODAL_MESSAGES = {
+    success: "nice! it's a match",
+    fail: 'sorry, but this is not a match'
+}
