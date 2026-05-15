@@ -13,10 +13,13 @@
 function FeedbackModal({ message, isVisible }) {
     if (!isVisible) return null
 
+    const IS_SUCCESS_MESSAGE = message.includes('nice')
+
     return (
         <div className="fixed inset-0 flex flex-col items-center px-4">
-            <section className="animate-modal-pop mt-12 rounded-3xl bg-white px-8 py-6 text-center shadow-2xl">
-                <p className="text-2xl font-black text-slate-950">{message}</p>
+            <section
+                className="animate-modal-pop mt-12 rounded-3xl bg-white px-8 py-6 text-center shadow-2xl">
+                <p className="text-2xl font-black text-slate-950">{IS_SUCCESS_MESSAGE ? '✨' : '💫'}{message}</p>
             </section>
         </div>
     )
