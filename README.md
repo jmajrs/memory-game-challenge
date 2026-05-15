@@ -6,7 +6,7 @@ The game starts with all cards face down. The player must find all matching pair
 
 ## Live Demo
 
-Pending deployment.
+https://memory-game-challenge-jmajrs.netlify.app/
 
 ## Repository
 
@@ -139,7 +139,7 @@ All audio stops when the game ends.
 
 This project is intended to be deployed using Netlify.
 
-Deployment URL: Pending deployment.
+Deployment URL: https://memory-game-challenge-jmajrs.netlify.app/
 
 ## Notes
 
