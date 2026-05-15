@@ -21,7 +21,7 @@ function MemoryCard({ card, onSelectCard, isDisabled }) {
             disabled={isDisabled || CARD_IS_VISIBLE}
             onClick={() => onSelectCard(card)}
             className='group aspect-square w-full disabled:cursor-not-allowed'
-            aria-label={CARD_IS_VISIBLE ? `${card.type} card` : 'Hidden memory card'}
+            aria-label={CARD_IS_VISIBLE ? `${card.label} card` : 'Hidden memory card'}
         >
             <div
                 className={`relative h-full w-full rounded-2xl transition-transform duration-500 transform-style-preserve-3d sm:rounded-3xl
@@ -33,8 +33,13 @@ function MemoryCard({ card, onSelectCard, isDisabled }) {
                 </div>
 
                 <div className='absolute inset-0 flex rotate-y-180 items-center justify-center rounded-2xl border-4 border-white/80 bg-slate-100 shadow-xl shadow-blue-950/40 backface-hidden sm:rounded-3xl'>
-                    <span className='text-5xl drop-shadow-md sm:text-6xl md:text-7xl'>{card.symbol}</span>
+                    <img
+                        src={card.image}
+                        alt={card.label}
+                        className='h-full max-h-24 w-full object-contain drop-shadow-md sm:max-h-28 md:max-h-32'
+                    />
                 </div>
+
             </div>
         </button>
     )
