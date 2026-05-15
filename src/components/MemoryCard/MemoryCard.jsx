@@ -21,18 +21,19 @@ function MemoryCard({ card, onSelectCard, isDisabled }) {
             disabled={isDisabled || CARD_IS_VISIBLE}
             onClick={() => onSelectCard(card)}
             className='group aspect-square w-full disabled:cursor-not-allowed'
+            aria-label={CARD_IS_VISIBLE ? `${card.type} card` : 'Hidden memory card'}
         >
             <div
-                className={`relative h-full w-full rounded-3xl transition-transform duration-500 transform-style-preserve-3d 
+                className={`relative h-full w-full rounded-2xl transition-transform duration-500 transform-style-preserve-3d sm:rounded-3xl
                         ${CARD_IS_VISIBLE ? 'rotate-y-180' : ''}`
                 }
             >
-                <div className='absolute inset-0 flex items-center justify-center rounded-3xl bg-blue-700 shadow-xl backface-hidden transition-transform duration-300 group-hover:scale-105'>
-                    <span className='text-6xl font-black text-yellow-300'>?</span>
+                <div className='absolute inset-0 flex items-center justify-center rounded-2xl border-4 border-yellow-300/80 bg-blue-700 shadow-xl shadow-blue-950/40 backface-hidden transition-transform duration-300 group-hover:scale-105 sm:rounded-3xl'>
+                    <span className='text-5xl font-black text-yellow-300 drop-shadow-lg sm:text-6xl'>?</span>
                 </div>
 
-                <div className='absolute inset-0 flex rotate-y-180 items-center justify-center rounded-3xl bg-slate-100 shadow-xl backface-hidden'>
-                    <span className='text-6xl'>{card.symbol}</span>
+                <div className='absolute inset-0 flex rotate-y-180 items-center justify-center rounded-2xl border-4 border-white/80 bg-slate-100 shadow-xl shadow-blue-950/40 backface-hidden sm:rounded-3xl'>
+                    <span className='text-5xl drop-shadow-md sm:text-6xl md:text-7xl'>{card.symbol}</span>
                 </div>
             </div>
         </button>

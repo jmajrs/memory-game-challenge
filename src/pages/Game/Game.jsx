@@ -18,8 +18,16 @@ import useGameAudio from '../../hooks/useGameAudio'
 
 /**
  * Game component
- * Temporal function to render a temporary game screen used to simulate the end of a match.
- * note: This function and comment will change in the future
+ * Renders and controls the main Memory Game screen.
+ *
+ * This component manages the full game state, including the shuffled cards,
+ * selected cards, matched pairs, timer, feedback modal, board lock state,
+ * and game audio. It validates selected cards, checks if they match, updates
+ * their visual state, plays the corresponding sound effects, and finishes
+ * the game when the player finds all pairs or the timer reaches zero.
+ *
+ * @param <Function> onFinishGame Callback function used to finish the game and send the final result
+ * @return <JSX.Element> Main game screen UI
  */
 function Game({ onFinishGame }) {
     const [cards, setCards] = useState(() => createGameCards(BASE_CARDS)),
@@ -152,15 +160,25 @@ function Game({ onFinishGame }) {
     }, [selectedCards])
 
     return (
-        <main className='min-h-screen bg-slate-950 px-4 py-8'>
+        <main className='relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 px-4 py-8'>
             <FeedbackModal message={modalMessage} isVisible={Boolean(modalMessage)} />
             <AudioButton isMuted={isMuted} onToggleAudio={toggleMute} />
-            <section className='mx-auto max-w-4xl'>
-                <div className='mb-8 flex justify-between items-center '>
-                    <h1 className='text-4xl font-bold text-white m-0'>Memory Game</h1>
-                    <GameTimer timeLeft={timeLeft} />
-                </div>
-                <div className='grid grid-cols-2 gap-4 sm:grid-cols-4'>
+            <section className='mx-auto flex min-h-[calc(100vh-4rem)] max-w-5xl flex-col justify-center'>
+                <header>
+                    <div className='flex items-center justify-between'>
+                        <h1 className='text-4xl font-black text-white drop-shadow-2xl md:text-5xl'>Memory Game</h1>
+                        <GameTimer timeLeft={timeLeft} />
+                    </div>
+
+                    <div className='flex items-center justify-between my-8'>
+                        <p className='m-0 text-xs font-bold uppercase tracking-[0.35em] text-yellow-300'>Find all pairs</p>
+                        <span className='rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-blue-100'>
+                            {matchesFound}/{TOTAL_MATCHES} matches
+                        </span>
+                    </div>
+
+                </header>
+                <div className='mx-auto grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 md:gap-5'>
                     {cards.map((card) => (
                         <MemoryCard
                             key={card.id}

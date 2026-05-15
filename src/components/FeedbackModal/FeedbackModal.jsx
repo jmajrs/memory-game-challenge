@@ -14,8 +14,8 @@ function FeedbackModal({ message, isVisible }) {
     if (!isVisible) return null
 
     return (
-        <div className="fixed inset-0 z-50 flex flex-col items-center bg-slate-950/70 px-4">
-            <section className="animate-modal-pop rounded-3xl bg-white px-8 py-6 text-center shadow-2xl">
+        <div className="fixed inset-0 flex flex-col items-center px-4">
+            <section className="animate-modal-pop mt-12 rounded-3xl bg-white px-8 py-6 text-center shadow-2xl">
                 <p className="text-2xl font-black text-slate-950">{message}</p>
             </section>
         </div>

@@ -14,8 +14,8 @@ function GameTimer({ timeLeft }) {
 
     return (
         <div
-            className={`rounded-full px-5 py-2 text-2xl text-center font-black w-[96px]
-            ${TIMER_IS_LOW ? 'bg-red-500 text-white animate-pulse' : 'bg-yellow-400 text-slate-950'}`}
+            className={`min-w-20 rounded-full px-5 py-2 text-center text-lg font-black shadow-xl
+            ${TIMER_IS_LOW ? 'bg-red-500 text-white animate-pulse shadow-red-500/30' : 'bg-yellow-400 text-slate-950 shadow-yellow-400/30'}`}
         >
             {timeLeft}s
         </div>
